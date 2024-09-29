@@ -4,15 +4,30 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { HomePage } from "./Components/Pages/Home/HomePage";
 import { LoginPage } from "./Components/Pages/Login/Login";
+import { CreateAccountPage } from "./Components/Pages/CriarConta/CriarConta";
+import { ProtectedRoute } from "./Components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
-  }, 
+    element: ( <ProtectedRoute /> ),
+    children: [
+      {
+        path: "/",
+        element: (
+            <HomePage />
+        ),
+      },
+      
+    ]
+  },  
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/criar_Conta",
+    element: <CreateAccountPage />,
   },
 ]);
 

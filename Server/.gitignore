@@ -1,0 +1,4 @@
+Lib/
+__pycache__/
+site-packages/
+Lib/site-packages/

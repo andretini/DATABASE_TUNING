@@ -36,6 +36,12 @@ def load_endpoints():
             if hasattr(module, 'router'):
                 if "auth" in filename.lower():  # ou use o nome exato do módulo, se preferir
                     app.include_router(module.router)  # Não adiciona dependência
+                elif 'user' in filename.lower():
+                    for route in module.router.routes:
+                        if route.path == '/users/create':
+                            continue  # Não adicionar dependência ao POST /users
+                        route.dependencies.append(Depends(checkToken))  # Adiciona a dependência
+                    app.include_router(module.router)
                 else:
                     for route in module.router.routes:
                         route.dependencies.append(Depends(checkToken))

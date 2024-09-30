@@ -1,4 +1,5 @@
 Lib/
+Scripts/
 __pycache__/
 site-packages/
 Lib/site-packages/

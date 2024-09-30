@@ -56,3 +56,24 @@ async def create_user(user: dict):
     finally:
         cursor.close()
         connection.close()
+
+@router.post("/delete/{id}")
+async def delete_user(id: int):
+    connection = get_connection()
+    if connection is None:
+        raise HTTPException(status_code=500, detail="Database connection failed")
+    
+    cursor = connection.cursor()
+    try:
+        cursor.execute(
+            f"DELETE FROM users WHERE id = {id}"
+        )
+        connection.commit()
+        return {"message": "User deleted"}
+    except Exception as e:
+        connection.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+    finally:
+        cursor.close()
+        connection.close()
+

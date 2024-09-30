@@ -14,7 +14,7 @@ export function CreateAccountPage() {
     async function criar(username, password, email, phone) {
         try {
             const response = await axios.post(
-                'http://localhost:8000/users',
+                'http://localhost:8000/users/create',
                 { username, password, email, phone },
                 {
                     headers: {

@@ -57,7 +57,7 @@ async def create_user(user: dict):
         cursor.close()
         connection.close()
 
-@router.post("/delete/{id}")
+@router.delete("/delete/{id}")
 async def delete_user(id: int):
     connection = get_connection()
     if connection is None:

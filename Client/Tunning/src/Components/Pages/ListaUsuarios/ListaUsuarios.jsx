@@ -30,7 +30,12 @@ export function ListaUsuarios() {
 
     const handleDelete = async (userId) => {
         try {
-            const response = await axios.post(`localhost:8000/users/${userId}`);
+            const response = await axios.delete(`http://localhost:8000/users/delete/${userId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
             if (response.status === 200) {
                 setUsers(users.filter(user => user.id !== userId));
             } else {

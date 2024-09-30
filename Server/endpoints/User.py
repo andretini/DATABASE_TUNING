@@ -60,33 +60,6 @@ async def create_user(user: dict):
         cursor.close()
         connection.close()
 
-# Rota para editar um usuário existente
-@router.put("/edit/{id}")
-async def update_user(id: int, user: dict):
-    connection = get_connection()
-    if connection is None:
-        raise HTTPException(status_code=500, detail="Database connection failed")
-    
-    cursor = connection.cursor()
-    try:
-        cursor.execute(
-            "UPDATE users SET username = %s, password = %s, email = %s, telefone_usuario = %s WHERE id = %s",
-            (user['username'], user['password'], user['email'], user['phone'], id)
-        )
-        connection.commit()
-        
-        if cursor.rowcount == 0:
-            raise HTTPException(status_code=404, detail="User not found")
-        
-        return {"message": f"User with ID {id} updated successfully"}
-    except Exception as e:
-        connection.rollback()
-        raise HTTPException(status_code=400, detail=str(e))
-    finally:
-        cursor.close()
-        connection.close()
-
-# Rota para deletar um usuário existente
 @router.delete("/delete/{id}")
 async def delete_user(id: int):
     connection = get_connection()
@@ -95,16 +68,16 @@ async def delete_user(id: int):
     
     cursor = connection.cursor()
     try:
-        cursor.execute("DELETE FROM users WHERE id = %s", (id,))
+        cursor.execute(
+            f"DELETE FROM users WHERE id = {id}"
+        )
         connection.commit()
-        
-        if cursor.rowcount == 0:
-            raise HTTPException(status_code=404, detail="User not found")
-        
-        return {"message": f"User with ID {id} deleted successfully"}
+        return {"message": "User deleted"}
     except Exception as e:
         connection.rollback()
         raise HTTPException(status_code=400, detail=str(e))
     finally:
         cursor.close()
         connection.close()
+
+
